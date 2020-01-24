@@ -26,16 +26,14 @@ if __name__ == '__main__':
        if key == curkey:
           suma += value
           total += cant
-          
 
-       else:
+1       else:
 
             if curkey is not None:
-               prom = suma/total
-               sys.stdout.write("{}\t{}\t{}\n".format(curkey, float(suma), round(prom, 3)))
+               prom = (suma/total)
+               sys.stdout.write("{}\t{}\t{}\n".format(curkey, suma, prom))
             total = cant
             suma = value
             curkey = key
 
-    prom = suma/total
-    sys.stdout.write("{}\t{}\t{}...\n".format(curkey, float(suma), round(prom, 3)))       
+    sys.stdout.write("{}\t{}\t{}\n".format(curkey, suma, prom))       

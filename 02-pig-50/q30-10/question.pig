@@ -29,6 +29,12 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
+fs -rm -r -f *.csv
+
+-- copia de archivos del sistema local al HDFS
+
+fs -put data.csv
+
 --
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
@@ -41,3 +47,19 @@ u = LOAD 'data.csv' USING PigStorage(',')
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
 
+-- Registro de UDF
+
+Register 'myudf.py' using streaming_python as myudf;
+
+-- Resultado
+
+z = FOREACH u GENERATE birthday,
+                       myudf.concatenar(GetDay(ToDate(birthday))),
+                       GetDay(ToDate(birthday)),
+                       myudf.getd(birthday), 
+                       myudf.getdia(birthday);
+
+
+-- almacenamiento
+
+STORE z INTO 'output' USING PigStorage(',');

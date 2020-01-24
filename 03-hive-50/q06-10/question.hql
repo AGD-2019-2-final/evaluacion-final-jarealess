@@ -41,3 +41,33 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 --
 
 
+DROP TABLE IF EXISTS partida;
+CREATE TABLE partida  AS
+SELECT
+    C1 AS C1,
+    UPPER(letras) as letras
+FROM
+    tbl0
+LATERAL VIEW
+    explode(c5) tbl0 AS letras; 
+
+
+DROP TABLE IF EXISTS resultado;
+CREATE TABLE resultado AS 
+SELECT
+    collect_set(letras)
+FROM
+    partida
+GROUP BY
+    C1;
+
+INSERT OVERWRITE LOCAL DIRECTORY 'output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM resultado;
+
+
+
+
+
+
+

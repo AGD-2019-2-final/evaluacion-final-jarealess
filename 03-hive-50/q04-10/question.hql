@@ -40,3 +40,14 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
 
+DROP TABLE IF EXISTS partida;
+CREATE TABLE partida AS SELECT explode(c5) AS letras FROM tbl0; 
+
+
+DROP TABLE IF EXISTS resultado;
+CREATE TABLE resultado AS SELECT DISTINCT letras FROM partida ORDER BY letras;
+
+
+INSERT OVERWRITE LOCAL DIRECTORY 'output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM resultado;

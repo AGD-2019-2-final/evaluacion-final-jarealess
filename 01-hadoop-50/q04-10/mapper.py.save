@@ -5,9 +5,9 @@ import sys
 if __name__ == "__main__":
 
 
-   for line in sys.stdin:
+   tupor line in sys.stdin:
        letra =  line.split()[0]
      #  letra = letra.split(',')[1]
        fecha = line.split()[1]
        valor = line.split()[2]
-       sys.stdout.write("{}\t1\n".format(letra))
+       sys.stdout.write("{}\t1\n".format(letra)

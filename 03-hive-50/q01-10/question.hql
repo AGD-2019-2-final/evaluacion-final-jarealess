@@ -11,3 +11,25 @@
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+
+
+DROP TABLE IF EXISTS data;
+
+
+CREATE TABLE data (letra STRING, 
+                   fecha STRING, 
+                   valor INT)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+
+
+
+LOAD DATA LOCAL INPATH 'data.tsv' OVERWRITE INTO TABLE data;
+
+DROP TABLE IF EXISTS conteo;
+CREATE TABLE conteo AS SELECT letra, COUNT(*) FROM data GROUP BY letra;
+                   
+
+INSERT OVERWRITE DIRECTORY 'output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM conteo;

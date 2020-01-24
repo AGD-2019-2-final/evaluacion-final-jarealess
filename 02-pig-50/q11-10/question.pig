@@ -27,6 +27,12 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
+fs -rm -f -r *.csv
+
+-- copia de archivos del sistema local al HDFS
+
+fs -put data.csv
+
 --
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
@@ -38,3 +44,19 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+-- ordenamiento 
+
+uu = ORDER u BY surname;
+
+-- columa de interes
+
+z = FOREACH uu GENERATE $2, UPPER($2), LOWER($2);
+
+-- almacenamiento
+
+STORE z INTO 'output' USING PigStorage(',');
+
+
+-- copia de archivos del HDFS al sistema local
+
+-- fs -get output/ ;

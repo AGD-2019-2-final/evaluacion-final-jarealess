@@ -17,6 +17,12 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
+fs -rm -r -f *.csv
+
+-- copia de archivos del sistema local al HDFS
+
+fs -put data.csv
+
 -- 
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
@@ -28,4 +34,16 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+
+-- columna de interés
+
+uu = FOREACH u GENERATE firstname, color;
+
+-- filtro - resultado
+
+z = FILTER uu BY (ENDSWITH(color, 'n') == true);
+
+-- almacenamiento
+
+STORE z INTO 'output' USING PigStorage(',');
 

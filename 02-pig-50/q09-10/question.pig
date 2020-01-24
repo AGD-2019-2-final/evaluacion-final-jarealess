@@ -25,7 +25,32 @@
 -- 
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
-fs -rm -f -r output;
+fs -rm -f -r output
 --
+-- se eliminan archivos en hdfs
 
+fs -rm -r -f *.tsv *.csv
+
+-- copia de archivos del sistema local al HDFS
+
+fs -put data.csv
+
+-- carga de archivos
+
+
+u = LOAD 'data.csv' USING PigStorage(',')
+    AS (f1:INT, f2:CHARARRAY, f3:CHARARRAY, f4:CHARARRAY, f5:CHARARRAY, f6:INT);
+
+-- resultado
+
+z = FOREACH u GENERATE CONCAT(f2, '@', f3);
+
+-- almacenamiento
+
+STORE z INTO 'output';
+
+
+-- copia de archivos del HDFS al sistema local
+
+-- fs -get output/ 
 

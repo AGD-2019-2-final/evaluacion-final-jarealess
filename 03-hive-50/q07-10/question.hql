@@ -40,4 +40,22 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
 
+DROP TABLE IF EXISTS resultado;
+CREATE TABLE resultado AS 
+SELECT
+    C2,
+    Collect_set(C1) AS vea
+FROM
+    tbl0
+GROUP BY
+    c2;
+
+INSERT OVERWRITE LOCAL DIRECTORY 'output'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+COLLECTION ITEMS TERMINATED BY ':'
+SELECT * FROM resultado;
+
+
+
+
 

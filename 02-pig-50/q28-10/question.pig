@@ -18,6 +18,11 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
+fs -rm -r -f *.csv
+
+-- copia de archivos del sistema local al HDFS
+
+fs -put data.csv
 --
 u = LOAD 'data.csv' USING PigStorage(',') 
     AS (id:int, 
@@ -29,4 +34,14 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+
+-- columna de interés
+
+uu = FOREACH u GENERATE SUBSTRING(birthday, 0, 4), SUBSTRING(birthday, 2, 4);
+
+
+-- almacenamiento
+
+STORE uu INTO 'output' USING PigStorage(',');
+
 

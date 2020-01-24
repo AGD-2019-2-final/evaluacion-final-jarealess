@@ -1,0 +1,35 @@
+## Función para obtener nombre abreviado del mes
+## Función para agregar '0' delante del número
+from pig_util import outputSchema
+
+@outputSchema("as:chararray")
+def mes(num):
+    if num == 1:
+        return ('ene')
+    elif num == 2:
+        return ('feb')
+    elif num == 3:
+        return ('mar')
+    elif num == 4:
+        return ('abr')
+    elif num == 5:
+        return ('may')
+    elif num == 6:
+        return ('jun')
+    elif num == 7:
+        return ('jul')
+    elif num == 8:
+        return ('ago')
+    elif num == 9:
+        return ('sep')
+    elif num == 10:
+        return ('oct')
+    elif num == '1':
+        return ('nov')
+    else:
+        return ('dic')
+    
+
+@outputSchema("word:chararray")
+def concatenar(word1):
+    return ('0' + word1)
